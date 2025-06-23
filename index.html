@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearLight Solutions | Professional Window Cleaning Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Professional Loading Screen */
+        .initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .initial-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+            animation: logoFloat 2s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .loader-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .loader-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: textPulse 1.5s ease-in-out infinite;
+        }
+        
+        .loader-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .loader-progress-bar {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: progressFill 2s ease-in-out;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0284c7;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #0284c7;
+            font-weight: 600;
+        }
+        
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(125, 211, 252, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .card-hover {
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #bae6fd;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loader.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0f2fe;
+            border-top-color: #0284c7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Professional Trust Indicators */
+        .trust-badge {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+        }
+        
+        .trust-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Call-to-action pulse animation */
+        .cta-pulse {
+            animation: ctaPulse 2s infinite;
+        }
+        
+        @keyframes ctaPulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
+        /* Professional floating elements */
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .testimonial-slider {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #7dd3fc;
+            box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .breadcrumb a {
+            color: #0284c7;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Professional stats counter animation */
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0284c7;
+            animation: countUp 2s ease-out;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+            
+            .hero-text {
+                font-size: 2.25rem !important;
+                line-height: 1.2;
+            }
+            
+            .trust-badge {
+                padding: 6px 10px;
+                font-size: 0.6rem;
+            }
+            
+            .stat-number {
+                font-size: 1.75rem;
+            }
+            
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .card-hover {
+                margin-bottom: 1rem;
+            }
+            
+            .grid {
+                gap: 1rem;
+            }
+            
+            .floating-element {
+                animation: none;
+            }
+            
+            /* Better mobile spacing */
+            .py-16 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            
+            .py-20 {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+            
+            .mb-16 {
+                margin-bottom: 2rem;
+            }
+            
+            .mb-20 {
+                margin-bottom: 3rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-text {
+                font-size: 1.875rem !important;
+            }
+            
+            .trust-badge {
+                padding: 4px 8px;
+                font-size: 0.5rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-4xl {
+                font-size: 1.75rem;
+            }
+            
+            .text-5xl {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Enhanced button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.4);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-primary {
+                padding: 16px 32px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Professional logo styling */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 8px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+        }
+        
+        @media (min-width: 768px) {
+            .logo-image {
+                width: 50px;
+                height: 50px;
+                margin-right: 12px;
+                border-radius: 12px;
+                padding: 5px;
+            }
+        }
+        
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Footer logo styling */
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            margin-right: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-logo {
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                margin-right: 12px;
+                padding: 5px;
+            }
+        }
+        
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Better mobile footer */
+        @media (max-width: 768px) {
+            footer .grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            footer .container {
+                padding: 1rem;
+            }
+        }
+        
+        /* Form success/error messages */
+        .form-message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .form-message.success {
+            background-color: #dcfce7;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+        
+        .form-message.error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+        
+        .form-message.show {
+            display: block;
+        }
+        
+        /* Matrixx Agency Attribution */
+        .matrixx-attribution {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 10px;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .matrixx-attribution:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        
+        .matrixx-logo {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .matrixx-attribution {
+                bottom: 8px;
+                right: 8px;
+                padding: 6px 10px;
+                font-size: 9px;
+            }
+            
+            .matrixx-logo {
+                width: 14px;
+                height: 14px;
+                font-size: 7px;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-50">
+    <!-- Initial Professional Loading Screen -->
+    <div class="initial-loader" id="initial-loader">
+        <div class="loader-logo">
+            <img src="https://i.postimg.cc/tJ1CHkHP/Adobe-Express-file-1-1.png" alt="ClearLight Solutions Logo">
+        </div>
+        <div class="loader-text">ClearLight Solutions</div>
+        <div class="text-white text-sm mb-6 opacity-75">Professional Window Cleaning Services</div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Regular Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 md:px-6 py-3 md:py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo-container" onclick="event.preventDefault(); navigateTo('home')">
+                    <div class="logo-image">
+                        <img src="https://i.postimg.cc/tJ1CHkHP/Adobe-Express-file-1-1.png" alt="ClearLight Solutions">
+                    </div>
+                    <h1 class="text-lg md:text-2xl font-bold">ClearLight<span class="gradient-text">Solutions</span></h1>
+                </div>
+                
+                <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+                    <a href="#" onclick="event.preventDefault(); navigateTo('home')" class="nav-link" data-page="home">Home</a>
+                    <a href="#" onclick="event.preventDefault(); navigateTo('services')" class="nav-link" data-page="services">Services</a>
+                    <a href="#" onclick="event.preventDefault(); navigateTo('about')" class="nav-link" data-page="about">About</a>
+                    <a href="#" onclick="event.preventDefault(); navigateTo('contact')" class="nav-link" data-page="contact">Contact</a>
+                    <a href="tel:289-936-1973" class="btn-primary cta-pulse">
+                        <i class="fas fa-phone mr-2"></i>Call Now
+                    </a>
+                </nav>
+                
+                <button id="mobile-menu-button" class="md:hidden text-blue-900 p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-50 md:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-blue-900">Menu</h2>
+                <button onclick="closeMobileMenu()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col gap-4">
+                <a href="#" onclick="event.preventDefault(); navigateTo('home'); closeMobileMenu();" class="nav-link py-3 px-4 rounded-lg hover:bg-blue-50" data-page="home">Home</a>
+                <a href="#" onclick="event.preventDefault(); navigateTo('services'); closeMobileMenu();" class="nav-link py-3 px-4 rounded-lg hover:bg-blue-50" data-page="services">Services</a>
+                <a href="#" onclick="event.preventDefault(); navigateTo('about'); closeMobileMenu();" class="nav-link py-3 px-4 rounded-lg hover:bg-blue-50" data-page="about">About</a>
+                <a href="#" onclick="event.preventDefault(); navigateTo('contact'); closeMobileMenu();" class="nav-link py-3 px-4 rounded-lg hover:bg-blue-50" data-page="contact">Contact</a>
+                <a href="tel:289-936-1973" class="btn-primary text-center mt-4">
+                    <i class="fas fa-phone mr-2"></i>Call Now
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <section class="gradient-bg hero-pattern relative overflow-hidden min-h-screen flex items-center">
+            <div class="container mx-auto px-4 md:px-6 py-8 md:py-24">
+                <div class="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
+                    <div class="relative z-10">
+                        <!-- Professional Trust Indicators -->
+                        <div class="flex flex-wrap gap-1 md:gap-3 mb-4 md:mb-8">
+                            <div class="trust-badge">
+                                <i class="fas fa-shield-check text-green-500 mr-1"></i>
+                                <span class="font-semibold">Fully Insured</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-clock text-blue-500 mr-1"></i>
+                                <span class="font-semibold">On Demand Service</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-award text-yellow-500 mr-1"></i>
+                                <span class="font-semibold">2+ Years Experience</span>
+                            </div>
+                        </div>
+                        
+                        <h1 class="hero-text text-3xl md:text-5xl lg:text-7xl font-bold text-blue-900 mb-3 md:mb-6 leading-tight">
+                            Crystal Clear Windows,
+                            <span class="gradient-text">Every Time</span>
+                        </h1>
+                        <p class="text-base md:text-xl text-blue-800 mb-4 md:mb-8 leading-relaxed">
+                            Transform your property with our professional window cleaning, pressure washing, and soft washing services. 
+                            <strong>Licensed, insured, and trusted by 500+ satisfied customers.</strong>
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 mb-6 md:mb-12">
+                            <button onclick="navigateTo('contact')" class="btn-primary cta-pulse">
+                                Get FREE Instant Quote <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                            <a href="tel:289-936-1973" class="bg-white/90 backdrop-blur-sm text-blue-900 px-4 md:px-8 py-3 md:py-4 rounded-full hover:bg-white transition-all font-semibold text-sm md:text-lg text-center border-2 border-blue-200 hover:border-blue-300">
+                                <i class="fas fa-phone mr-2"></i> 289-936-1973
+                            </a>
+                        </div>
+                        
+                        <!-- Enhanced Stats -->
+                        <div class="grid grid-cols-3 gap-2 md:gap-6">
+                            <div class="text-center">
+                                <div class="stat-number">500+</div>
+                                <div class="text-blue-700 font-medium text-xs md:text-base">Happy Clients</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="stat-number">100%</div>
+                                <div class="text-blue-700 font-medium text-xs md:text-base">Satisfaction Rate</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="stat-number">24hr</div>
+                                <div class="text-blue-700 font-medium text-xs md:text-base">Response Time</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative floating-element mt-6 md:mt-0">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-3xl transform rotate-6"></div>
+                        <img src="https://i.postimg.cc/KjhbJgqq/IMG-7736.webp" 
+                             alt="Professional window cleaning" 
+                             class="relative rounded-3xl shadow-2xl w-full">
+                        
+                        <!-- Enhanced floating badge -->
+                        <div class="absolute -bottom-3 md:-bottom-8 -left-3 md:-left-8 bg-gradient-to-br from-green-400 to-green-600 text-white p-3 md:p-6 rounded-2xl shadow-2xl max-w-xs">
+                            <div class="flex items-center gap-2 md:gap-4">
+                                <div class="w-8 h-8 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-certificate text-white text-sm md:text-2xl"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-xs md:text-lg">Licensed & Bonded</div>
+                                    <div class="opacity-90 text-xs md:text-base">Comprehensive Insurance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Updated Services Preview -->
+        <section class="py-12 md:py-20 bg-white">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-4">Our Professional <span class="gradient-text">Services</span></h2>
+                    <p class="text-base md:text-xl text-gray-600 max-w-3xl mx-auto">Three core services that keep your property looking pristine year-round</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 md:gap-8">
+                    <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 md:p-8 text-center">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-6">
+                            <i class="fas fa-spray-can text-white text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Window Cleaning</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">Interior and exterior window cleaning for residential and commercial properties. Streak-free results guaranteed.</p>
+                        <ul class="text-left space-y-1 md:space-y-2 mb-4 md:mb-6 text-xs md:text-base">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Residential & Commercial</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Interior & Exterior</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Screen Cleaning</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Eco-Friendly Solutions</li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+                    
+                    <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 md:p-8 text-center">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-6">
+                            <i class="fas fa-shower text-white text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Pressure Washing</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">High-pressure cleaning for driveways, sidewalks, decks, and building exteriors. Remove years of buildup.</p>
+                        <ul class="text-left space-y-1 md:space-y-2 mb-4 md:mb-6 text-xs md:text-base">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Driveways & Walkways</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Decks & Patios</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Building Exteriors</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Graffiti Removal</li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+                    
+                    <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 md:p-8 text-center">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-6">
+                            <i class="fas fa-tint text-white text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Soft Washing</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">Gentle, low-pressure cleaning for delicate surfaces like roofs, siding, and painted areas.</p>
+                        <ul class="text-left space-y-1 md:space-y-2 mb-4 md:mb-6 text-xs md:text-base">
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Roof Cleaning</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Vinyl Siding</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Stucco & Brick</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i> Mold & Mildew Removal</li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6 md:mt-12">
+                    <button onclick="navigateTo('services')" class="btn-primary">
+                        View All Services <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced Why Choose Us Section -->
+        <section class="py-12 md:py-20 bg-gradient-to-r from-blue-50 to-white">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="text-center mb-8 md:mb-16">
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-4">Why <span class="gradient-text">500+ Customers</span> Trust Us</h2>
+                    <p class="text-base md:text-xl text-gray-600 max-w-3xl mx-auto">We're not just service providers — we're your partners in property maintenance</p>
+                </div>
+                
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
+                    <div class="card-hover bg-white rounded-2xl p-3 md:p-6 text-center shadow-lg">
+                        <div class="w-8 h-8 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
+                            <i class="fas fa-shield-check text-white text-sm md:text-2xl"></i>
+                        </div>
+                        <h3 class="text-sm md:text-xl font-bold text-gray-900 mb-1 md:mb-2">Fully Licensed & Insured</h3>
+                        <p class="text-gray-600 text-xs md:text-base">Complete protection with comprehensive liability insurance</p>
+                    </div>
+                    
+                    <div class="card-hover bg-white rounded-2xl p-3 md:p-6 text-center shadow-lg">
+                        <div class="w-8 h-8 md:w-16 md:h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
+                            <i class="fas fa-clock text-white text-sm md:text-2xl"></i>
+                        </div>
+                        <h3 class="text-sm md:text-xl font-bold text-gray-900 mb-1 md:mb-2">On Demand Service</h3>
+                        <p class="text-gray-600 text-xs md:text-base">Emergency and on-demand appointments available</p>
+                    </div>
+                    
+                    <div class="card-hover bg-white rounded-2xl p-3 md:p-6 text-center shadow-lg">
+                        <div class="w-8 h-8 md:w-16 md:h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
+                            <i class="fas fa-medal text-white text-sm md:text-2xl"></i>
+                        </div>
+                        <h3 class="text-sm md:text-xl font-bold text-gray-900 mb-1 md:mb-2">100% Satisfaction</h3>
+                        <p class="text-gray-600 text-xs md:text-base">We're not happy until you're completely satisfied</p>
+                    </div>
+                    
+                    <div class="card-hover bg-white rounded-2xl p-3 md:p-6 text-center shadow-lg">
+                        <div class="w-8 h-8 md:w-16 md:h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
+                            <i class="fas fa-leaf text-white text-sm md:text-2xl"></i>
+                        </div>
+                        <h3 class="text-sm md:text-xl font-bold text-gray-900 mb-1 md:mb-2">Eco-Friendly</h3>
+                        <p class="text-gray-600 text-xs md:text-base">Safe for your family, pets, and the environment</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced Testimonials with new reviews -->
+        <section class="py-12 md:py-20 bg-white">
+            <div class="container mx-auto px-4 md:px-6">
+                <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">What Our Clients <span class="gradient-text">Say</span></h2>
+                <div class="testimonial-slider relative">
+                    <div class="testimonial-track" id="testimonial-track">
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-blue-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">GF</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">Gul Farooqui</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"So happy I found Faraz. His team recently cleaned all our windows and they look absolutely perfect. They finished the job in record time despite challenging weather conditions. Faraz and his team did a fantastic job!"</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-green-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-green-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">NK</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">Nadeem Khan</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"They did an excellent job cleaning the glass all around my home, leaving it streak-free and shining. The service was professional, punctual, and reasonably priced. Highly recommend!"</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-purple-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">KP</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">Karan Patel</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"Extremely happy with their pressure washing service! Despite the cold weather, they managed to squeeze me into their busy schedule. The results exceeded my expectations. Highly recommend!"</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-orange-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">MB</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">Mannie Boxer</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"Had my windows cleaned last week and they still look great. Faraz and his team did a wonderful job cleaning the glass and window ledge. Quick and effective 👌"</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-teal-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-teal-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">SL</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">S. Lax</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"Zubair is polite and friendly. He did a great job cleaning the windows on my house. Varun and Faraz are very patient answering all my questions when I was debating to sign up for the window cleaning. Thank you very much. You guys are great"</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-slide">
+                            <div class="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-4 md:p-8 shadow-xl max-w-2xl mx-auto border border-indigo-100">
+                                <div class="flex items-center mb-3 md:mb-6">
+                                    <div class="w-10 h-10 md:w-16 md:h-16 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm md:text-xl mr-3 md:mr-4">ML</div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-sm md:text-lg">Michael Lee</h4>
+                                        <div class="flex text-yellow-400 mb-1">
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                            <i class="fas fa-star text-xs md:text-base"></i>
+                                        </div>
+                                        <p class="text-xs md:text-sm text-gray-500">Verified Customer</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 italic text-sm md:text-lg leading-relaxed">"We had Tasleem come and clean our windows. With the unexpected rain, he waited in his car until it cleared up to start with the cleaning. He was very thorough and got all windows, even the fake one for the attic. Even though he started late, he took his time and didn't rush. I will definitely be having these guys come back. Great job Tasleem."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-4 md:mt-8 gap-2">
+                        <button onclick="slideTestimonial(0)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-500 rounded-full transition-all hover:bg-blue-600"></button>
+                        <button onclick="slideTestimonial(1)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full transition-all hover:bg-blue-500"></button>
+                        <button onclick="slideTestimonial(2)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full transition-all hover:bg-blue-500"></button>
+                        <button onclick="slideTestimonial(3)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full transition-all hover:bg-blue-500"></button>
+                        <button onclick="slideTestimonial(4)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full transition-all hover:bg-blue-500"></button>
+                        <button onclick="slideTestimonial(5)" class="w-2 h-2 md:w-3 md:h-3 bg-blue-300 rounded-full transition-all hover:bg-blue-500"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced CTA Section -->
+        <section class="gradient-bg py-12 md:py-20">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="bg-white rounded-3xl p-6 md:p-12 shadow-2xl text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-purple-600"></div>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-6">Ready for Crystal Clear Results?</h2>
+                    <p class="text-base md:text-xl text-gray-600 mb-4 md:mb-8 max-w-2xl mx-auto">Join 500+ satisfied customers who trust ClearLight Solutions for professional window cleaning and exterior washing services.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
+                        <button onclick="navigateTo('contact')" class="btn-primary cta-pulse">
+                            Get Your FREE Quote Today <i class="fas fa-calendar-check ml-2"></i>
+                        </button>
+                        <a href="tel:289-936-1973" class="text-blue-600 font-semibold text-sm md:text-lg hover:text-blue-700 transition">
+                            or call 289-936-1973 now
+                        </a>
+                    </div>
+                    <div class="mt-4 md:mt-8 flex flex-wrap justify-center items-center gap-2 md:gap-8 text-xs md:text-sm text-gray-500">
+                        <span><i class="fas fa-check text-green-500 mr-1"></i> No obligations</span>
+                        <span><i class="fas fa-check text-green-500 mr-1"></i> On demand quotes</span>
+                        <span><i class="fas fa-check text-green-500 mr-1"></i> 100% satisfaction guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Updated Services Page -->
+    <div id="services-page" class="page">
+        <section class="gradient-bg py-8 md:py-16">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="breadcrumb">
+                    <a href="#" onclick="event.preventDefault(); navigateTo('home')">Home</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span>Services</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-bold text-blue-900 mb-3 md:mb-6">Our Professional <span class="gradient-text">Services</span></h1>
+                <p class="text-base md:text-xl text-blue-800 max-w-3xl">Three specialized services that keep your property looking pristine year-round.</p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-20">
+            <div class="container mx-auto px-4 md:px-6">
+                <!-- Updated Service Categories -->
+                <div class="grid md:grid-cols-3 gap-4 md:gap-8 mb-12 md:mb-20">
+                    <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 md:p-8 border border-blue-200">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center mb-3 md:mb-6 shadow-lg">
+                            <i class="fas fa-spray-can text-blue-600 text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Window Cleaning</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">Professional interior and exterior window cleaning for residential and commercial properties. We deliver streak-free, crystal-clear results every time.</p>
+                        <ul class="space-y-2 md:space-y-3 mb-4 md:mb-8 text-xs md:text-base">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Interior & exterior window cleaning</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Screen cleaning and maintenance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Sill and frame detailing</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Post-construction cleanup</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Eco-friendly solutions</span>
+                            </li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 md:p-8 border border-green-200">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center mb-3 md:mb-6 shadow-lg">
+                            <i class="fas fa-shower text-green-600 text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Pressure Washing</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">High-pressure cleaning services for driveways, walkways, decks, and building exteriors. Remove years of dirt, grime, and stains.</p>
+                        <ul class="space-y-2 md:space-y-3 mb-4 md:mb-8 text-xs md:text-base">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Driveways and walkways</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Decks and patios</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Building exteriors</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Parking lots and garages</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Graffiti removal</span>
+                            </li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+
+                    <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 md:p-8 border border-purple-200">
+                        <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center mb-3 md:mb-6 shadow-lg">
+                            <i class="fas fa-tint text-purple-600 text-lg md:text-3xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Soft Washing</h3>
+                        <p class="text-gray-700 mb-3 md:mb-6 text-sm md:text-base">Gentle, low-pressure cleaning for delicate surfaces. Perfect for roofs, siding, and areas that require careful treatment.</p>
+                        <ul class="space-y-2 md:space-y-3 mb-4 md:mb-8 text-xs md:text-base">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Roof cleaning and maintenance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Vinyl and aluminum siding</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Stucco and brick surfaces</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Mold and mildew removal</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2 md:mr-3"></i>
+                                <span class="text-gray-700">Algae and moss treatment</span>
+                            </li>
+                        </ul>
+                        <button onclick="navigateTo('contact')" class="btn-primary w-full">
+                            Inquire Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Process Section -->
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-3xl p-6 md:p-12 mb-12 md:mb-20">
+                    <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">Our Professional <span class="gradient-text">Process</span></h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg border-2 md:border-4 border-blue-200">
+                                <span class="text-lg md:text-2xl font-bold text-blue-600">1</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">FREE Consultation</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Contact us for an instant quote and detailed assessment</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg border-2 md:border-4 border-green-200">
+                                <span class="text-lg md:text-2xl font-bold text-green-600">2</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Flexible Scheduling</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Choose a time that works best for your schedule</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg border-2 md:border-4 border-purple-200">
+                                <span class="text-lg md:text-2xl font-bold text-purple-600">3</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Expert Service</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Our licensed team delivers professional results</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg border-2 md:border-4 border-yellow-200">
+                                <span class="text-lg md:text-2xl font-bold text-yellow-600">4</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Satisfaction Guaranteed</h3>
+                            <p class="text-gray-600 text-xs md:text-base">100% satisfaction or we'll make it right</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="mt-12 md:mt-20">
+                    <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">Frequently Asked <span class="gradient-text">Questions</span></h2>
+                    <div class="max-w-3xl mx-auto space-y-4 md:space-y-6">
+                        <div class="bg-white rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                            <button class="w-full text-left flex justify-between items-center" onclick="toggleFAQ('faq1')">
+                                <h3 class="text-sm md:text-lg font-semibold text-gray-900 pr-4">How often should I have my windows cleaned professionally?</h3>
+                                <i class="fas fa-chevron-down text-blue-600 transition-transform flex-shrink-0" id="faq1-icon"></i>
+                            </button>
+                            <div id="faq1" class="hidden mt-3 md:mt-4 text-gray-600 text-sm md:text-base">
+                                <p>We recommend professional window cleaning at least twice a year for residential properties and monthly for commercial properties. However, factors like location, weather conditions, and personal preference may affect this schedule. Properties near busy roads or in dusty areas may benefit from more frequent cleaning.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                            <button class="w-full text-left flex justify-between items-center" onclick="toggleFAQ('faq2')">
+                                <h3 class="text-sm md:text-lg font-semibold text-gray-900 pr-4">What's the difference between pressure washing and soft washing?</h3>
+                                <i class="fas fa-chevron-down text-blue-600 transition-transform flex-shrink-0" id="faq2-icon"></i>
+                            </button>
+                            <div id="faq2" class="hidden mt-3 md:mt-4 text-gray-600 text-sm md:text-base">
+                                <p>Pressure washing uses high-pressure water (1,500-4,000 PSI) for tough surfaces like driveways and concrete. Soft washing uses low pressure (under 500 PSI) with specialized cleaning solutions for delicate surfaces like roofs, siding, and painted areas. We'll recommend the best method for your specific needs.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                            <button class="w-full text-left flex justify-between items-center" onclick="toggleFAQ('faq3')">
+                                <h3 class="text-sm md:text-lg font-semibold text-gray-900 pr-4">Are your cleaning products safe for my family and pets?</h3>
+                                <i class="fas fa-chevron-down text-blue-600 transition-transform flex-shrink-0" id="faq3-icon"></i>
+                            </button>
+                            <div id="faq3" class="hidden mt-3 md:mt-4 text-gray-600 text-sm md:text-base">
+                                <p>Absolutely! We use eco-friendly, biodegradable cleaning solutions that are completely safe for your family, pets, and plants. Our products are just as effective as traditional cleaners but without harmful chemicals. We're committed to protecting both your family and the environment.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 md:p-6 shadow-lg border border-gray-100">
+                            <button class="w-full text-left flex justify-between items-center" onclick="toggleFAQ('faq4')">
+                                <h3 class="text-sm md:text-lg font-semibold text-gray-900 pr-4">Do you provide on-demand service?</h3>
+                                <i class="fas fa-chevron-down text-blue-600 transition-transform flex-shrink-0" id="faq4-icon"></i>
+                            </button>
+                            <div id="faq4" class="hidden mt-3 md:mt-4 text-gray-600 text-sm md:text-base">
+                                <p>Yes! We offer on-demand service for urgent requests when our schedule allows. For guaranteed same-day service, please call us before 10 AM. We also provide emergency cleaning services for special events or unexpected situations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-page" class="page">
+        <section class="gradient-bg py-8 md:py-16">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="breadcrumb">
+                    <a href="#" onclick="event.preventDefault(); navigateTo('home')">Home</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span>About</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-bold text-blue-900 mb-3 md:mb-6">About <span class="gradient-text">ClearLight Solutions</span></h1>
+                <p class="text-base md:text-xl text-blue-800 max-w-3xl">Your trusted partner in professional exterior cleaning services.</p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-20">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="grid md:grid-cols-2 gap-6 md:gap-12 items-start mb-12 md:mb-20">
+                    <div>
+                        <h2 class="text-xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-6">Our <span class="gradient-text">Story</span></h2>
+                        <p class="text-gray-600 text-sm md:text-lg leading-relaxed mb-3 md:mb-6">
+                            ClearLight Solutions was founded by Faraz Khan with a simple mission: to bring clarity and brightness to every property we service. What started as a one-person operation has grown into a trusted service serving hundreds of satisfied customers across the Greater Toronto Area.
+                        </p>
+                        <p class="text-gray-600 text-sm md:text-lg leading-relaxed mb-3 md:mb-6">
+                            We believe that clean windows and well-maintained exteriors do more than just improve appearances — they transform spaces, letting in natural light that enhances mood, productivity, and overall well-being. Our commitment to excellence, eco-friendly practices, and customer satisfaction has made us the preferred choice for both residential and commercial clients.
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 md:gap-6 mt-4 md:mt-8">
+                            <div class="bg-blue-50 rounded-xl p-3 md:p-6 text-center border border-blue-200">
+                                <div class="text-xl md:text-3xl font-bold text-blue-600 mb-1 md:mb-2">500+</div>
+                                <p class="text-gray-700 font-medium text-xs md:text-base">Satisfied Customers</p>
+                            </div>
+                            <div class="bg-green-50 rounded-xl p-3 md:p-6 text-center border border-green-200">
+                                <div class="text-xl md:text-3xl font-bold text-green-600 mb-1 md:mb-2">2+</div>
+                                <p class="text-gray-700 font-medium text-xs md:text-base">Years of Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="https://i.postimg.cc/RCWJ8rPw/IMG-7738.webp" 
+                             alt="ClearLight Solutions team" 
+                             class="rounded-2xl shadow-2xl w-full">
+                        <div class="absolute -bottom-6 md:-bottom-12 -right-3 md:-right-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 md:p-8 rounded-2xl shadow-xl max-w-xs">
+                            <i class="fas fa-quote-left text-lg md:text-3xl mb-2 md:mb-4 opacity-50"></i>
+                            <p class="italic text-xs md:text-base">"Every window we clean is an opportunity to brighten someone's day and enhance their space."</p>
+                            <p class="mt-2 md:mt-4 font-semibold text-xs md:text-base">- Faraz Khan, Founder</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Values Section -->
+                <div class="bg-gradient-to-r from-blue-50 to-white rounded-3xl p-6 md:p-12 mb-12 md:mb-20">
+                    <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">Our Core <span class="gradient-text">Values</span></h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                <i class="fas fa-medal text-white text-sm md:text-2xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Excellence</h3>
+                            <p class="text-gray-600 text-xs md:text-base">We strive for perfection in every job, delivering results that exceed expectations</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                <i class="fas fa-leaf text-white text-sm md:text-2xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Sustainability</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Eco-friendly practices that protect our planet for future generations</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                <i class="fas fa-handshake text-white text-sm md:text-2xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Integrity</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Honest, transparent service you can trust every time</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                <i class="fas fa-users text-white text-sm md:text-2xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-1 md:mb-2 text-sm md:text-base">Community</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Building lasting relationships with our clients and community</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div>
+                    <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">Meet Our <span class="gradient-text">Founder</span></h2>
+                    <div class="max-w-lg mx-auto">
+                        <div class="text-center bg-white rounded-3xl p-4 md:p-8 shadow-xl border border-gray-100">
+                            <div class="w-24 h-24 md:w-40 md:h-40 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto mb-3 md:mb-6 flex items-center justify-center shadow-lg">
+                                <i class="fas fa-user text-white text-2xl md:text-5xl"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-lg md:text-2xl mb-1 md:mb-2">Faraz Khan</h3>
+                            <p class="text-blue-600 mb-3 md:mb-4 font-semibold text-sm md:text-base">Founder & Owner</p>
+                            <p class="text-gray-600 leading-relaxed text-xs md:text-base">With over 2 years of experience in exterior cleaning services, Faraz leads ClearLight Solutions with passion and dedication to excellence. His commitment to quality service and customer satisfaction has built the foundation of trust that our clients rely on every day.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="mt-12 md:mt-20 bg-white rounded-3xl p-6 md:p-12 shadow-lg border border-gray-100">
+                    <h2 class="text-xl md:text-3xl font-bold text-center text-gray-900 mb-6 md:mb-12">Certifications & <span class="gradient-text">Trust Indicators</span></h2>
+                    <div class="grid md:grid-cols-3 gap-4 md:gap-8">
+                        <div class="text-center">
+                            <div class="w-16 h-16 md:w-32 md:h-32 bg-blue-50 rounded-xl flex items-center justify-center mb-3 md:mb-4 mx-auto border border-blue-200">
+                                <i class="fas fa-certificate text-blue-600 text-2xl md:text-4xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-sm md:text-lg mb-1 md:mb-2">Licensed & Insured</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Fully licensed business with comprehensive liability insurance</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 md:w-32 md:h-32 bg-green-50 rounded-xl flex items-center justify-center mb-3 md:mb-4 mx-auto border border-green-200">
+                                <i class="fas fa-shield-alt text-green-600 text-2xl md:text-4xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-sm md:text-lg mb-1 md:mb-2">Safety Certified</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Trained in safety protocols and proper equipment usage</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 md:w-32 md:h-32 bg-yellow-50 rounded-xl flex items-center justify-center mb-3 md:mb-4 mx-auto border border-yellow-200">
+                                <i class="fas fa-award text-yellow-600 text-2xl md:text-4xl"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 text-sm md:text-lg mb-1 md:mb-2">Industry Excellence</h3>
+                            <p class="text-gray-600 text-xs md:text-base">Recognized for outstanding service quality and reliability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page with Formspree Integration -->
+    <div id="contact-page" class="page">
+        <section class="gradient-bg py-8 md:py-16">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="breadcrumb">
+                    <a href="#" onclick="event.preventDefault(); navigateTo('home')">Home</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span>Contact</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-bold text-blue-900 mb-3 md:mb-6">Contact <span class="gradient-text">Us</span></h1>
+                <p class="text-base md:text-xl text-blue-800 max-w-3xl">Ready for crystal clear windows? Get your free quote today and experience the ClearLight difference.</p>
+            </div>
+        </section>
+
+        <section class="py-12 md:py-20">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="grid md:grid-cols-2 gap-6 md:gap-12">
+                    <div>
+                        <h2 class="text-xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-8">Get Your <span class="gradient-text">FREE Quote</span></h2>
+                        
+                        <div class="space-y-4 md:space-y-6 mb-6 md:mb-12">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                                    <i class="fas fa-phone text-white text-xs md:text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 mb-1 text-sm md:text-lg">Call or Text</h3>
+                                    <a href="tel:289-936-1973" class="text-blue-600 hover:text-blue-700 text-base md:text-xl font-semibold">289-936-1973</a>
+                                    <p class="text-gray-600 text-xs md:text-sm mt-1">Available 7 days a week • 8AM-9PM</p>
+                                    <p class="text-gray-600 text-xs md:text-sm">On demand quotes available</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                                    <i class="fas fa-envelope text-white text-xs md:text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 mb-1 text-sm md:text-lg">Email</h3>
+                                    <a href="mailto:ClearSolutionLight@gmail.com" class="text-blue-600 hover:text-blue-700 text-xs md:text-base">ClearSolutionLight@gmail.com</a>
+                                    <p class="text-gray-600 text-xs md:text-sm mt-1">We respond within 24 hours</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mr-3 md:mr-4 flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-white text-xs md:text-base"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 mb-1 text-sm md:text-lg">Service Area</h3>
+                                    <p class="text-gray-600 text-xs md:text-base">Greater Toronto Area</p>
+                                    <p class="text-gray-600 text-xs md:text-sm mt-1">Residential & commercial properties</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-4 md:p-8 mb-4 md:mb-8 border border-blue-200">
+                            <h3 class="font-bold text-gray-900 text-base md:text-xl mb-3 md:mb-4">Business Hours</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                                <div class="space-y-1 md:space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Monday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Tuesday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Wednesday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Thursday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                </div>
+                                <div class="space-y-1 md:space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Friday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Saturday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-700 text-xs md:text-base">Sunday</span>
+                                        <span class="font-semibold text-gray-900 text-xs md:text-base">8AM - 9PM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base md:text-xl mb-3 md:mb-4">Follow & Review Us</h3>
+                            <div class="flex gap-4">
+                                <a href="https://g.co/kgs/ocnci3Y" target="_blank" class="flex items-center bg-red-600 hover:bg-red-700 text-white px-3 md:px-6 py-2 md:py-3 rounded-xl transition transform hover:scale-105 text-xs md:text-base">
+                                    <i class="fab fa-google mr-2"></i>
+                                    <span>Review on Google</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <!-- Success/Error Messages -->
+                        <div id="form-success" class="form-message success">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Thank you for your message! We'll contact you within 24 hours with your free quote.
+                        </div>
+                        
+                        <div id="form-error" class="form-message error">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            There was an error sending your message. Please try again or call us directly.
+                        </div>
+
+                        <!-- Formspree Contact Form -->
+                        <form action="https://formspree.io/f/mrbkyaqn" method="POST" id="contact-form" class="bg-white rounded-2xl p-4 md:p-8 shadow-xl border border-gray-100">
+                            <h3 class="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-8">Request Your Free Quote</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-3 md:mb-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Full Name *</label>
+                                    <input type="text" id="name" name="name" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Email Address *</label>
+                                    <input type="email" id="email" name="email" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-3 md:mb-6">
+                                <div>
+                                    <label for="phone" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" required>
+                                </div>
+                                <div>
+                                    <label for="service" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Service Type *</label>
+                                    <select id="service" name="service" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" required>
+                                        <option value="">Select a service</option>
+                                        <option value="window-cleaning">Window Cleaning</option>
+                                        <option value="pressure-washing">Pressure Washing</option>
+                                        <option value="soft-washing">Soft Washing</option>
+                                        <option value="multiple">Multiple Services</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 md:mb-6">
+                                <label for="address" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Property Address *</label>
+                                <input type="text" id="address" name="address" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" required>
+                            </div>
+                            
+                            <div class="mb-3 md:mb-6">
+                                <label for="message" class="block text-gray-700 font-medium mb-1 md:mb-2 text-xs md:text-base">Project Details</label>
+                                <textarea id="message" name="message" rows="3" class="form-input w-full px-3 md:px-4 py-2 md:py-3 rounded-xl border border-gray-300 focus:outline-none text-xs md:text-base" placeholder="Tell us about your project, number of windows, square footage, etc."></textarea>
+                            </div>
+                            
+                            <!-- Honeypot field for spam protection -->
+                            <input type="text" name="_gotcha" style="display:none" />
+                            
+                            <!-- Formspree configuration -->
+                            <input type="hidden" name="_subject" value="New Quote Request from ClearLight Solutions Website" />
+                            <input type="hidden" name="_next" value="https://clearlightsolutions.com/thank-you" />
+                            
+                            <div class="mb-4 md:mb-8">
+                                <label class="flex items-start">
+                                    <input type="checkbox" class="mt-1 mr-2 md:mr-3" required>
+                                    <span class="text-xs md:text-sm text-gray-600">I agree to be contacted by ClearLight Solutions regarding my quote request. No spam, ever.</span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary w-full" id="submit-btn">
+                                <span id="btn-text">Get My FREE Quote Now</span>
+                                <span id="btn-loading" class="hidden">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i>Sending...
+                                </span>
+                                <i class="fas fa-paper-plane ml-2" id="btn-icon"></i>
+                            </button>
+                            
+                            <div class="mt-3 md:mt-4 text-center text-gray-500 text-xs md:text-sm">
+                                <p><i class="fas fa-shield-check text-green-500 mr-1"></i> Your information is secure and never shared</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gradient-to-br from-gray-900 to-blue-900 text-white pt-8 md:pt-16 pb-4 md:pb-8">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8 mb-6 md:mb-12">
+                <div>
+                    <div class="flex items-center mb-3 md:mb-6">
+                        <div class="footer-logo">
+                            <img src="https://i.postimg.cc/tJ1CHkHP/Adobe-Express-file-1-1.png" alt="ClearLight Solutions">
+                        </div>
+                        <h2 class="text-base md:text-2xl font-bold">ClearLight<span class="text-blue-300">Solutions</span></h2>
+                    </div>
+                    <p class="text-gray-300 mb-3 md:mb-6 text-xs md:text-base">Professional window cleaning, pressure washing, and soft washing services for the Greater Toronto Area.</p>
+                    <div class="flex gap-4">
+                        <a href="https://g.co/kgs/ocnci3Y" target="_blank" class="w-6 h-6 md:w-10 md:h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition">
+                            <i class="fab fa-google text-xs md:text-base"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm md:text-lg font-bold mb-3 md:mb-6 text-blue-300">Quick Links</h3>
+                    <ul class="space-y-1 md:space-y-3">
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('home')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Home</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('services')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Services</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('about')" class="text-gray-300 hover:text-white transition text-xs md:text-base">About Us</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('contact')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm md:text-lg font-bold mb-3 md:mb-6 text-blue-300">Our Services</h3>
+                    <ul class="space-y-1 md:space-y-3">
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('services')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Window Cleaning</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('services')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Pressure Washing</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('services')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Soft Washing</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('contact')" class="text-gray-300 hover:text-white transition text-xs md:text-base">Free Quotes</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-sm md:text-lg font-bold mb-3 md:mb-6 text-blue-300">Contact Info</h3>
+                    <ul class="space-y-1 md:space-y-3">
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-phone mr-2 md:mr-3 text-blue-300 text-xs"></i>
+                            <a href="tel:289-936-1973" class="hover:text-white transition text-xs md:text-base">289-936-1973</a>
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-envelope mr-2 md:mr-3 text-blue-300 text-xs"></i>
+                            <a href="mailto:ClearSolutionLight@gmail.com" class="hover:text-white transition text-xs">ClearSolutionLight@gmail.com</a>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <i class="fas fa-map-marker-alt mr-2 md:mr-3 mt-1 text-blue-300 text-xs"></i>
+                            <span class="text-xs md:text-base">Greater Toronto Area</span>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <i class="fas fa-clock mr-2 md:mr-3 mt-1 text-blue-300 text-xs"></i>
+                            <span class="text-xs md:text-base">7 Days a Week • 8AM-9PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-4 md:pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-xs md:text-sm mb-2 md:mb-0">© 2025 ClearLight Solutions. All rights reserved.</p>
+                <div class="flex gap-3 md:gap-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-xs md:text-sm transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs md:text-sm transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Matrixx Agency Attribution -->
+    <a href="https://matrixx.agency/" target="_blank" class="matrixx-attribution">
+        <div class="matrixx-logo">M</div>
+        <span>Website Made by Matrixx Agency</span>
+    </a>
+
+    <script>
+        // Initial loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('initial-loader').classList.add('hidden');
+            }, 2500);
+        });
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Page Navigation
+            let currentPage = 'home';
+            
+            window.navigateTo = function(page) {
+                if (page === currentPage) return;
+                
+                // Show loader
+                document.getElementById('loader').classList.add('active');
+                
+                setTimeout(() => {
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    
+                    // Show selected page
+                    document.getElementById(`${page}-page`).classList.add('active');
+                    
+                    // Update navigation
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        if (link.dataset.page === page) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                    
+                    currentPage = page;
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Hide loader
+                    document.getElementById('loader').classList.remove('active');
+                }, 300);
+            }
+            
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+            
+            window.closeMobileMenu = function() {
+                mobileMenu.classList.remove('active');
+            }
+            
+            // Enhanced Contact Form with Formspree
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+            const btnIcon = document.getElementById('btn-icon');
+            const successMessage = document.getElementById('form-success');
+            const errorMessage = document.getElementById('form-error');
+            
+            function showMessage(element) {
+                element.classList.add('show');
+                setTimeout(() => {
+                    element.classList.remove('show');
+                }, 5000);
+            }
+            
+            function setLoadingState(loading) {
+                if (loading) {
+                    submitBtn.disabled = true;
+                    btnText.classList.add('hidden');
+                    btnLoading.classList.remove('hidden');
+                    btnIcon.classList.add('hidden');
+                } else {
+                    submitBtn.disabled = false;
+                    btnText.classList.remove('hidden');
+                    btnLoading.classList.add('hidden');
+                    btnIcon.classList.remove('hidden');
+                }
+            }
+            
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                setLoadingState(true);
+                
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: new FormData(contactForm),
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        showMessage(successMessage);
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage(errorMessage);
+                }
+                
+                setLoadingState(false);
+            });
+            
+            // Testimonial Slider with 6 testimonials
+            let currentTestimonial = 0;
+            const totalTestimonials = 6;
+            
+            window.slideTestimonial = function(index) {
+                currentTestimonial = index;
+                const track = document.getElementById('testimonial-track');
+                track.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.testimonial-slider button').forEach((btn, i) => {
+                    if (i === index) {
+                        btn.classList.add('bg-blue-500');
+                        btn.classList.remove('bg-blue-300');
+                    } else {
+                        btn.classList.add('bg-blue-300');
+                        btn.classList.remove('bg-blue-500');
+                    }
+                });
+            }
+            
+            // Auto-slide testimonials
+            setInterval(() => {
+                currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
+                slideTestimonial(currentTestimonial);
+            }, 5000);
+            
+            // FAQ Toggle
+            window.toggleFAQ = function(id) {
+                const faq = document.getElementById(id);
+                const icon = document.getElementById(`${id}-icon`);
+                
+                if (faq.classList.contains('hidden')) {
+                    faq.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    faq.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            }
+            
+            // Initialize
+            navigateTo('home');
+        });
+    </script>
+</body>
+</html>
